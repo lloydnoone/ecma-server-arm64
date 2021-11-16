@@ -44,7 +44,7 @@ export class TestController extends Controller {
       }`)
 
       if (testFunction().pass) {
-        res.status(200).send({ message: 'Test passed' })
+        res.status(200).send({ message: 'Test passed after updating' })
       } else {
         res.status(200).send({ message: 'Test failed',
         error: { 
