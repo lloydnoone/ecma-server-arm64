@@ -18,7 +18,7 @@ docker push spoonobi/multi-server-arm:$SHA
 
 # log into remote and pipe in commands from here
 #log in, apply k8s, update deployment image
-ssh lloyd@192.168.1.188 "kubectl apply -f k8s && kubectl set image deployments/server-deployment server=spoonobi/multi-server-arm:{$SHA}"
+ssh lloyd@192.168.1.188 "kubectl apply -f development/ecmatrials/k8s && kubectl set image deployments/server-deployment server=spoonobi/multi-server-arm:{$SHA}"
 # kubectl apply -f k8s
 
 # kubectl set image deployments/server-deployment server=spoonobi/multi-server-arm:$SHA
