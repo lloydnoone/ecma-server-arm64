@@ -7,6 +7,8 @@ var __extends = (this && this.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -48,26 +50,26 @@ var LoginController = /** @class */ (function (_super) {
         res.status(200).redirect('/');
     };
     __decorate([
-        decorators_1.get('/login'),
+        (0, decorators_1.get)('/login'),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", void 0)
     ], LoginController.prototype, "getLogin", null);
     __decorate([
-        decorators_1.post('/login'),
-        decorators_1.bodyValidator('email', 'password'),
+        (0, decorators_1.post)('/login'),
+        (0, decorators_1.bodyValidator)('email', 'password'),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", void 0)
     ], LoginController.prototype, "postLogin", null);
     __decorate([
-        decorators_1.get('/logout'),
+        (0, decorators_1.get)('/logout'),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", void 0)
     ], LoginController.prototype, "getLogout", null);
     LoginController = __decorate([
-        decorators_1.controller('/auth')
+        (0, decorators_1.controller)('/auth')
     ], LoginController);
     return LoginController;
 }(Controller_1.Controller));

@@ -2,7 +2,7 @@ import { request } from '../../test/helper'
 import { Response } from 'supertest';
 
 describe('GET /', () => {
-  test('should return a 200 response', async (done) => {
+  test('should return a 200 response', done => {
     request
     .get('/')
     .end((err: Error, res: Response) => {
@@ -13,7 +13,7 @@ describe('GET /', () => {
 })
 
 describe('GET /protected', () => {
-  test('should return a 200 response if logged in', async (done) => {
+  test('should return a 200 response if logged in', done => {
     request
     .get('/')
     .set('session', 'loggedIn=true' )

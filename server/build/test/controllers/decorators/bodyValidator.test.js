@@ -17,7 +17,7 @@ var TestClass = /** @class */ (function () {
     /* eslint-disable-next-line @typescript-eslint/no-empty-function */
     TestClass.prototype.testFunc = function () { };
     __decorate([
-        bodyValidator_1.bodyValidator('name', 'pass'),
+        (0, bodyValidator_1.bodyValidator)('name', 'pass'),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", []),
         __metadata("design:returntype", void 0)

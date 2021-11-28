@@ -12,7 +12,7 @@ const loginIncorrect = {
 }
 
 describe('GET /login', () => {
-  test('should return a 200 response', async (done) => {
+  test('should return a 200 response', done => {
     request
     .get('/auth/login')
     .end((err: Error, res: Response) => {
@@ -23,7 +23,7 @@ describe('GET /login', () => {
 })
 
 describe('POST /login', () => {
-  test('should return a 401 unauthorised response for incorrect login details', async (done) => {
+  test('should return a 401 unauthorised response for incorrect login details', done => {
     request
       .post('/auth/login')
       .type('form')
@@ -34,7 +34,7 @@ describe('POST /login', () => {
       })
   })
 
-  test('should return a 302 redirect response for correct login details', async (done) => {
+  test('should return a 302 redirect response for correct login details', done => {
     request
       .post('/auth/login')
       .type('form')
@@ -47,7 +47,7 @@ describe('POST /login', () => {
 })
 
 describe('GET /logout', () => {
-  test('should return 302 redirect response', (done) => {
+  test('should return 302 redirect response', done => {
   request
     .get('/auth/logout')
     .end((err: Error, res: Response) => {

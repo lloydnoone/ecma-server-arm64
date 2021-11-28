@@ -10,7 +10,7 @@ jest.mock('../app/controllers/decorators/controller', () => jest.fn())
 
 const app = new App()
 
-beforeAll(async (done) => {
+beforeAll(done => {
   app.ApplyMiddleware()
   app.startServer()
   done()

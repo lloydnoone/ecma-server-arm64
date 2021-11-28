@@ -23,7 +23,7 @@ describe('use decorator test suite', function () {
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             TestClass.prototype.testFunc = function () { };
             __decorate([
-                use_1.use(testMiddleware),
+                (0, use_1.use)(testMiddleware),
                 __metadata("design:type", Function),
                 __metadata("design:paramtypes", []),
                 __metadata("design:returntype", void 0)
@@ -40,8 +40,8 @@ describe('use decorator test suite', function () {
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             TestClass.prototype.testFunc = function () { };
             __decorate([
-                use_1.use(testMiddleware),
-                use_1.use(anotherMiddleware),
+                (0, use_1.use)(testMiddleware),
+                (0, use_1.use)(anotherMiddleware),
                 __metadata("design:type", Function),
                 __metadata("design:paramtypes", []),
                 __metadata("design:returntype", void 0)

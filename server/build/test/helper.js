@@ -9,4 +9,4 @@ var supertest_1 = __importDefault(require("supertest"));
 var App_1 = require("../app/App");
 var app = new App_1.App();
 app.ApplyMiddleware();
-exports.request = supertest_1.default(app.getApp());
+exports.request = (0, supertest_1.default)(app.getApp());

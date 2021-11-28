@@ -14,7 +14,7 @@ const invalidJavaScript = {
 }
 
 describe('POST /tests/test', () => {
-  test('should return a 422 unproccessible entity response for empty string', async (done) => {
+  test('should return a 422 unproccessible entity response for empty string', done => {
     request
       .post('/tests/test')
       .type('form')
@@ -25,7 +25,7 @@ describe('POST /tests/test', () => {
       })
   })
 
-  test('should return a 422 unproccessible entity response for invalid JavaScript.', async (done) => {
+  test('should return a 422 unproccessible entity response for invalid JavaScript.', done => {
     request
       .post('/tests/test')
       .type('form')
@@ -36,7 +36,7 @@ describe('POST /tests/test', () => {
       })
   })
 
-  test('should return the snippets errors if there are any.', async (done) => {
+  test('should return the snippets errors if there are any.', done => {
     request
       .post('/tests/test')
       .type('form')
@@ -54,7 +54,7 @@ describe('POST /tests/test', () => {
       })
   })
 
-  test('should return a 200 ok response for a snippet that is a string', async (done) => {
+  test('should return a 200 ok response for a snippet that is a string', done => {
     request
       .post('/tests/test')
       .type('form')

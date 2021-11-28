@@ -12,7 +12,7 @@ require("./controllers/RootController");
 require("./controllers/TestController");
 var App = /** @class */ (function () {
     function App() {
-        this.app = express_1.default();
+        this.app = (0, express_1.default)();
         this.port = 0;
         this.server = null;
     }
@@ -22,7 +22,7 @@ var App = /** @class */ (function () {
     App.prototype.ApplyMiddleware = function () {
         this.app.use(express_1.default.json());
         this.app.use(express_1.default.urlencoded({ extended: true }));
-        this.app.use(cookie_session_1.default({ keys: ['alsdfsdf'] }));
+        this.app.use((0, cookie_session_1.default)({ keys: ['alsdfsdf'] }));
         this.app.use(AppRouter_1.AppRouter.getInstance());
     };
     App.prototype.startServer = function () {

@@ -7,6 +7,8 @@ var __extends = (this && this.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -51,13 +53,14 @@ var TestController = /** @class */ (function (_super) {
             res.status(422).send('Invalid snippet received.');
         }
         try {
-            var testFunction = vm.run(snippet + "\n\n      module.exports = function() {\n        if(testvar === 1) {\n          const results = {pass: true, testvar: testvar}\n          return results\n        } else {\n          const results = {pass: false, testvar: testvar}\n          return results\n        }\n      }");
+            var testFunction = vm.run("".concat(snippet, "\n\n      module.exports = function() {\n        if(testvar === 1) {\n          const results = {pass: true, testvar: testvar}\n          return results\n        } else {\n          const results = {pass: false, testvar: testvar}\n          return results\n        }\n      }"));
             if (testFunction().pass) {
-                res.status(200).send({ message: 'Test passed' });
+                res.status(200).send({ message: 'Test passed after updating' });
             }
             else {
-                res.status(200).send({ message: 'Test failed', error: {
-                        message: "testvar = " + testFunction().testvar + ", should be 1",
+                res.status(200).send({ message: 'Test failed',
+                    error: {
+                        message: "testvar = ".concat(testFunction().testvar, ", should be 1"),
                         name: 'Incorrect',
                         stack: '',
                         lineNumber: 0
@@ -82,14 +85,14 @@ var TestController = /** @class */ (function (_super) {
         }
     };
     __decorate([
-        decorators_1.post('/test'),
-        decorators_1.bodyValidator('snippet'),
+        (0, decorators_1.post)('/test'),
+        (0, decorators_1.bodyValidator)('snippet'),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", void 0)
     ], TestController.prototype, "postSnippet", null);
     TestController = __decorate([
-        decorators_1.controller('/tests')
+        (0, decorators_1.controller)('/tests')
     ], TestController);
     return TestController;
 }(Controller_1.Controller));

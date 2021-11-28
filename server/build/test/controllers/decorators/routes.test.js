@@ -17,7 +17,7 @@ var TestClass = /** @class */ (function () {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     TestClass.prototype.testFunc = function () { };
     __decorate([
-        routes_1.get('/testpath'),
+        (0, routes_1.get)('/testpath'),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", []),
         __metadata("design:returntype", void 0)
