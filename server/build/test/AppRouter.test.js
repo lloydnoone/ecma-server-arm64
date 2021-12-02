@@ -8,8 +8,6 @@ var AppRouter_1 = require("../app/AppRouter");
 describe('AppRouter test suite', function () {
     test('Should return an instance of an express router', function () {
         var instance = AppRouter_1.AppRouter.getInstance();
-        setTimeout(function () {
-            expect(instance).toBeInstanceOf(express_1.default.Router());
-        }, 1000);
+        expect(instance.name).toEqual(express_1.default.Router().name);
     });
 });

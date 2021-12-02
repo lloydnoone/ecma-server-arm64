@@ -21,17 +21,15 @@ describe('POST /tests/test', function () {
             done();
         });
     });
-    test('should return a 422 unproccessible entity response for invalid JavaScript.', function (done) {
-        helper_1.request
-            .post('/tests/test')
-            .type('form')
-            .send(invalidJavaScript)
-            .end(function (err, res) {
-            expect(res.status).toBe(422);
-            done();
-        });
-    });
     test('should return the snippets errors if there are any.', function (done) {
+        // request
+        //   .post('/tests/test')
+        //   .type('form')
+        //   .send(invalidJavaScript)
+        //   .end((err: Error, res: Response) => {
+        //     expect(res.status).toBe(422)
+        //     done()
+        //   })
         helper_1.request
             .post('/tests/test')
             .type('form')
@@ -42,9 +40,11 @@ describe('POST /tests/test', function () {
                 error: {
                     message: expect.any(String),
                     name: expect.any(String),
-                    stack: expect.any(String)
+                    stack: expect.any(String),
+                    lineNumber: expect.any(String)
                 }
             });
+            expect(res.body.message).toEqual('invalid JS.');
             done();
         });
     });

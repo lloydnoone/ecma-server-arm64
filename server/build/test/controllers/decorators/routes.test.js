@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
+var MetadataKeys_1 = require("../../../app/controllers/decorators/MetadataKeys");
 var routes_1 = require("../../../app/controllers/decorators/routes");
 var TestClass = /** @class */ (function () {
     function TestClass() {
@@ -26,12 +27,10 @@ var TestClass = /** @class */ (function () {
 }());
 describe('routes decorator test suite', function () {
     test('should store correct path and method as metadata', function () {
-        setTimeout(function () {
-            var path = Reflect.getMetadata('/testpath', TestClass.prototype, 'testFunc' // name of the function
-            );
-            var method = Reflect.getMetadata('get', TestClass.prototype, 'testFunc');
-            expect(path).toBe('/testpath');
-            expect(method).toBe('get');
-        }, 1000);
+        var path = Reflect.getMetadata(MetadataKeys_1.MetadataKeys.path, TestClass.prototype, 'testFunc' // name of the function
+        );
+        var method = Reflect.getMetadata(MetadataKeys_1.MetadataKeys.method, TestClass.prototype, 'testFunc');
+        expect(path).toBe('/testpath');
+        expect(method).toBe('get');
     });
 });

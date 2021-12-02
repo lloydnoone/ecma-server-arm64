@@ -6,6 +6,7 @@ var App_1 = require("../app/App");
 //mock decorators
 jest.mock('../app/controllers/RootController', function () { return jest.fn(); });
 jest.mock('../app/controllers/LoginController', function () { return jest.fn(); });
+jest.mock('../app/controllers/TestController', function () { return jest.fn(); });
 jest.mock('../app/controllers/decorators/controller', function () { return jest.fn(); });
 var app = new App_1.App();
 beforeAll(function (done) {
@@ -17,9 +18,10 @@ afterAll(function () {
     app.closeServer();
 });
 describe('Server test suite', function () {
-    test('should be able to create server on port 3000', function () {
+    test('should be able to create server on port 5000', function (done) {
         setTimeout(function () {
             expect(app.getPort()).toBe(5000);
-        }, 1000);
+            done();
+        }, 100);
     });
 });

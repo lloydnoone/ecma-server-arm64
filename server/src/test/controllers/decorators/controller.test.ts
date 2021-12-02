@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { controller, get, use } from '../../../app/controllers/decorators'
+import { controller, post, use } from '../../../app/controllers/decorators'
 import { App } from '../../../app/App'
 import { AnyObject } from '../../../app/interfaces/AnyObject'
 
@@ -9,11 +9,10 @@ jest.mock('../../../app/controllers/LoginController', () => jest.fn())
 /* eslint-disable-next-line @typescript-eslint/no-empty-function */
 function testMiddleware() {}
 
-@controller('/testprefix')
-
+@controller('/tests')
 /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 class TestClass {
-  @get('/testroute')
+  @post('/test')
   @use(testMiddleware)
   /* eslint-disable-next-line @typescript-eslint/no-empty-function */
   testFunc() {}
@@ -39,7 +38,7 @@ describe('controller decorator test suite', () => {
     const routes: { 
       path: string, 
       methods: { 
-        get: boolean 
+        post: boolean 
       }, 
       stack: [
         Layer: {
@@ -48,18 +47,16 @@ describe('controller decorator test suite', () => {
       ] 
     }[] = [];
 
+    //get middleware for each route on the router
     app.getApp()._router.stack.forEach(function(middleware: AnyObject){
-        if(middleware.route){ // routes registered directly on the app
-            routes.push(middleware.route);
-        } else if(middleware.name === 'router'){ // router middleware
+        if(middleware.name === 'router'){ // router middleware
             middleware.handle.stack.forEach(function(handler: AnyObject){
-                route = handler.route;
-                route && routes.push(route);
+                handler.route && routes.push(handler.route);
             });
         }
     })
-    expect(routes[0].path).toBe('/testprefix/testroute')
-    expect(routes[0].methods.get).toBe(true)
-    expect(routes[0].stack[0].handle).toBe(testMiddleware)
+    expect(routes[1].path).toBe('/tests/test')
+    expect(routes[1].methods.post).toBe(true)
+    expect(routes[1].stack[0].handle).toBe(testMiddleware)
   })
 })

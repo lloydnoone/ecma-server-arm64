@@ -26,15 +26,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RootController = void 0;
 var decorators_1 = require("./decorators");
+var requireAuth_1 = require("./middleware/requireAuth");
 var Controller_1 = require("../controllers/Controller");
-function requireAuth(req, res, next) {
-    if (req.session && req.session.loggedIn) {
-        next();
-        return;
-    }
-    res.status(403);
-    res.send('Not Permitted');
-}
 var RootController = /** @class */ (function (_super) {
     __extends(RootController, _super);
     function RootController() {
@@ -59,7 +52,7 @@ var RootController = /** @class */ (function (_super) {
     ], RootController.prototype, "getRoot", null);
     __decorate([
         (0, decorators_1.get)('/protected'),
-        (0, decorators_1.use)(requireAuth),
+        (0, decorators_1.use)(requireAuth_1.requireAuth),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", void 0)

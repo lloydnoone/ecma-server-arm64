@@ -23,14 +23,14 @@ var TestClass = /** @class */ (function () {
     /* eslint-disable-next-line @typescript-eslint/no-empty-function */
     TestClass.prototype.testFunc = function () { };
     __decorate([
-        (0, decorators_1.get)('/testroute'),
+        (0, decorators_1.post)('/test'),
         (0, decorators_1.use)(testMiddleware),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", []),
         __metadata("design:returntype", void 0)
     ], TestClass.prototype, "testFunc", null);
     TestClass = __decorate([
-        (0, decorators_1.controller)('/testprefix')
+        (0, decorators_1.controller)('/tests')
         /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     ], TestClass);
     return TestClass;
@@ -50,19 +50,16 @@ describe('controller decorator test suite', function () {
         var route;
         // define array to hold routes from express handler
         var routes = [];
+        //get middleware for each route on the router
         app.getApp()._router.stack.forEach(function (middleware) {
-            if (middleware.route) { // routes registered directly on the app
-                routes.push(middleware.route);
-            }
-            else if (middleware.name === 'router') { // router middleware
+            if (middleware.name === 'router') { // router middleware
                 middleware.handle.stack.forEach(function (handler) {
-                    route = handler.route;
-                    route && routes.push(route);
+                    handler.route && routes.push(handler.route);
                 });
             }
         });
-        expect(routes[0].path).toBe('/testprefix/testroute');
-        expect(routes[0].methods.get).toBe(true);
-        expect(routes[0].stack[0].handle).toBe(testMiddleware);
+        expect(routes[1].path).toBe('/tests/test');
+        expect(routes[1].methods.post).toBe(true);
+        expect(routes[1].stack[0].handle).toBe(testMiddleware);
     });
 });

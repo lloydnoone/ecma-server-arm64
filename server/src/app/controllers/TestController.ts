@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
-import { controller, bodyValidator, post } from './decorators'
+import { controller, bodyValidator, post, use } from './decorators'
+import { logger } from './middleware/logger'
 import { Controller } from '../controllers/Controller'
 import { NodeVM } from 'vm2'
 
@@ -20,11 +21,9 @@ const vm: NodeVM = new NodeVM({
 export class TestController extends Controller {
   @post('/test')
   @bodyValidator('snippet')
+  @use(logger)
   postSnippet(req: Request, res: Response): void {
     const { snippet } = req.body
-
-    // const functionInSandbox = vm.run("module.exports = function(who) { console.log('hello '+ who); }");
-    // functionInSandbox('world');
 
     if (snippet === '') {
       res.status(422).send('Invalid snippet received.')
@@ -42,7 +41,7 @@ export class TestController extends Controller {
           return results
         }
       }`)
-
+      
       if (testFunction().pass) {
         res.status(200).send({ message: 'Test passed after updating' })
       } else {
@@ -55,11 +54,13 @@ export class TestController extends Controller {
         }})
       }
       // any errors in the users code will br thrown as an actual error here
-      // however we still want respond normally to the client with 200 and their error msg
-    } catch (err: unknown) {
-      if (!(err instanceof Error)) { throw err }
+      // however we still want to respond normally to the client with 200 and their error msg
+    } catch (error: unknown) {
+      // vm2 function sends back plain object as error, cast this to SyntaxError
+      const err = error as SyntaxError
+      // if the error from vm was other than users syntax, throw real error
       if (!err.stack) err.stack = 'stack undefined'
-      
+
       res.status(200).send({ message: 'invalid JS.', 
       error: { 
         message: err.message,

@@ -26,6 +26,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TestController = void 0;
 var decorators_1 = require("./decorators");
+var logger_1 = require("./middleware/logger");
 var Controller_1 = require("../controllers/Controller");
 var vm2_1 = require("vm2");
 var vm = new vm2_1.NodeVM({
@@ -47,8 +48,6 @@ var TestController = /** @class */ (function (_super) {
     }
     TestController.prototype.postSnippet = function (req, res) {
         var snippet = req.body.snippet;
-        // const functionInSandbox = vm.run("module.exports = function(who) { console.log('hello '+ who); }");
-        // functionInSandbox('world');
         if (snippet === '') {
             res.status(422).send('Invalid snippet received.');
         }
@@ -67,12 +66,12 @@ var TestController = /** @class */ (function (_super) {
                     } });
             }
             // any errors in the users code will br thrown as an actual error here
-            // however we still want respond normally to the client with 200 and their error msg
+            // however we still want to respond normally to the client with 200 and their error msg
         }
-        catch (err) {
-            if (!(err instanceof Error)) {
-                throw err;
-            }
+        catch (error) {
+            // vm2 function sends back plain object as error, cast this to SyntaxError
+            var err = error;
+            // if the error from vm was other than users syntax, throw real error
             if (!err.stack)
                 err.stack = 'stack undefined';
             res.status(200).send({ message: 'invalid JS.',
@@ -87,6 +86,7 @@ var TestController = /** @class */ (function (_super) {
     __decorate([
         (0, decorators_1.post)('/test'),
         (0, decorators_1.bodyValidator)('snippet'),
+        (0, decorators_1.use)(logger_1.logger),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", void 0)

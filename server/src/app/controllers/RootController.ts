@@ -1,16 +1,7 @@
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response} from 'express'
 import { get, controller, use } from './decorators'
+import { requireAuth } from './middleware/requireAuth'
 import { Controller } from '../controllers/Controller'
-
-function requireAuth(req: Request, res: Response, next: NextFunction): void {
-  if (req.session && req.session.loggedIn) {
-    next()
-    return
-  }
-
-  res.status(403)
-  res.send('Not Permitted')
-}
 
 @controller('')
 export class RootController extends Controller {
