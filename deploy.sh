@@ -1,4 +1,4 @@
-# This script will be run as part of the pre-push git hook when pushing from master
+# This script will be run as part of the pre-push git hook when pushing to master
 
 SHA=$(git rev-parse HEAD)
 branch="$(git rev-parse --abbrev-ref HEAD)"
