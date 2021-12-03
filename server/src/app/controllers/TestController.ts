@@ -4,6 +4,7 @@ import { logger } from './middleware/logger'
 import { Controller } from '../controllers/Controller'
 import { NodeVM } from 'vm2'
 
+// set defaults for VM
 const vm: NodeVM = new NodeVM({
   console: 'inherit',
   sandbox: {},
