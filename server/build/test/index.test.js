@@ -18,9 +18,9 @@ afterAll(function () {
     app.closeServer();
 });
 describe('Server test suite', function () {
-    test('should be able to create server on port 5000', function (done) {
+    test('should be able to create server on port 8888', function (done) {
         setTimeout(function () {
-            expect(app.getPort()).toBe(5000);
+            expect(app.getPort()).toBe(8888);
             done();
         }, 100);
     });

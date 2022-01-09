@@ -13,7 +13,7 @@ fi
 
 # if tests dont produce non zero exit code the build push and deploy
 echo "##### building mutli-server-arm ######"
-docker buildx build -t spoonobi/multi-server-arm:latest -t spoonobi/multi-server-arm:$SHA --platform linux/arm64 -f ./server/Dockerfile ./server
+sudo docker buildx build -t spoonobi/multi-server-arm:latest -t spoonobi/multi-server-arm:$SHA --platform linux/arm64 -f ./server/Dockerfile ./server
 
 echo "##### pushing :latest and "$SHA" ######"
 docker push spoonobi/multi-server-arm:latest

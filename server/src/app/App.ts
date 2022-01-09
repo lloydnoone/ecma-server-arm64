@@ -24,7 +24,7 @@ export class App {
   }
 
   public startServer(): void {
-    const server = this.app.listen(5000, () => {
+    const server = this.app.listen(8888, () => {
       const { port } = server.address() as AddressInfo
       this.port = port
       console.log('Listening on test port ' + this.port)

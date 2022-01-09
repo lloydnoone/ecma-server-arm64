@@ -22,9 +22,9 @@ afterAll(() => {
 })
 
 describe('Server test suite', () => {
-  test('should be able to create server on port 5000', done => {
+  test('should be able to create server on port 8888', done => {
     setTimeout(() => {
-      expect(app.getPort()).toBe(5000)
+      expect(app.getPort()).toBe(8888)
       done()
     }, 100)
   })

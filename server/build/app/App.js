@@ -27,7 +27,7 @@ var App = /** @class */ (function () {
     };
     App.prototype.startServer = function () {
         var _this = this;
-        var server = this.app.listen(5000, function () {
+        var server = this.app.listen(8888, function () {
             var port = server.address().port;
             _this.port = port;
             console.log('Listening on test port ' + _this.port);
