@@ -207,7 +207,7 @@ export class TestController extends Controller {
         }
       `)
       
-      if (testFunction().results.open === true) {
+      if (testFunction().results.open === false) {
         res.status(200).send({ message: 'Test passed' })
       } else {
         res.status(200).send({ message: 'Test failed',
