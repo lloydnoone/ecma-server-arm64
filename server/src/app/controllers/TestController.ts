@@ -88,8 +88,6 @@ export class TestController extends Controller {
           }
         }
       `)
-
-      console.log("results: ", testFunction().results.open)
       
       if (testFunction().results.open === true) {
         res.status(200).send({ message: 'Test passed' })
@@ -160,6 +158,61 @@ export class TestController extends Controller {
         res.status(200).send({ message: 'Test failed',
         error: { 
           message: result,
+          name: 'Incorrect',
+          stack: '',
+          lineNumber: 0
+        }})
+      }
+      // any errors in the users code will br thrown as an actual error here
+      // however we still want to respond normally to the client with 200 and their error msg
+    } catch (error: unknown) {
+      // vm2 function sends back plain object as error, cast this to SyntaxError
+      const err = error as SyntaxError
+      // if the error from vm was other than users syntax, throw real error
+      if (!err.stack) err.stack = 'stack undefined'
+
+      res.status(200).send({ message: 'invalid JS.', 
+      error: { 
+        message: err.message,
+        name: err.name,
+        stack: err.stack,
+        lineNumber: err.stack.split('\n')[0].replace('vm.js:','')
+      }})
+    }
+  }
+
+  @post('/reassignment')
+  @bodyValidator('snippet')
+  @use(logger)
+  reassignment(req: Request, res: Response): void {
+    const { snippet } = req.body
+
+    if (snippet === '') {
+      res.status(422).send('Invalid snippet received.')
+    }
+
+    try {
+      const testFunction = vm.run(`
+      
+      let open = false
+
+      ${snippet}
+      
+      module.exports = function() {
+          return {
+            results: {
+              open: open
+            }
+          }
+        }
+      `)
+      
+      if (testFunction().results.open === true) {
+        res.status(200).send({ message: 'Test passed' })
+      } else {
+        res.status(200).send({ message: 'Test failed',
+        error: { 
+          message: `open is ${testFunction().results.open}, should be true`,
           name: 'Incorrect',
           stack: '',
           lineNumber: 0

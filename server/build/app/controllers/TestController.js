@@ -94,7 +94,6 @@ var TestController = /** @class */ (function (_super) {
         }
         try {
             var testFunction = vm.run("".concat(snippet, "\n      \n      module.exports = function() {\n          return {\n            results: {\n              open: open\n            }\n          }\n        }\n      "));
-            console.log("results: ", testFunction().results.open);
             if (testFunction().results.open === true) {
                 res.status(200).send({ message: 'Test passed' });
             }
@@ -169,6 +168,43 @@ var TestController = /** @class */ (function (_super) {
                 } });
         }
     };
+    TestController.prototype.reassignment = function (req, res) {
+        var snippet = req.body.snippet;
+        if (snippet === '') {
+            res.status(422).send('Invalid snippet received.');
+        }
+        try {
+            var testFunction = vm.run("\n      \n      let open = false\n\n      ".concat(snippet, "\n      \n      module.exports = function() {\n          return {\n            results: {\n              open: open\n            }\n          }\n        }\n      "));
+            if (testFunction().results.open === true) {
+                res.status(200).send({ message: 'Test passed' });
+            }
+            else {
+                res.status(200).send({ message: 'Test failed',
+                    error: {
+                        message: "open is ".concat(testFunction().results.open, ", should be true"),
+                        name: 'Incorrect',
+                        stack: '',
+                        lineNumber: 0
+                    } });
+            }
+            // any errors in the users code will br thrown as an actual error here
+            // however we still want to respond normally to the client with 200 and their error msg
+        }
+        catch (error) {
+            // vm2 function sends back plain object as error, cast this to SyntaxError
+            var err = error;
+            // if the error from vm was other than users syntax, throw real error
+            if (!err.stack)
+                err.stack = 'stack undefined';
+            res.status(200).send({ message: 'invalid JS.',
+                error: {
+                    message: err.message,
+                    name: err.name,
+                    stack: err.stack,
+                    lineNumber: err.stack.split('\n')[0].replace('vm.js:', '')
+                } });
+        }
+    };
     __decorate([
         (0, decorators_1.post)('/vardeclaration'),
         (0, decorators_1.bodyValidator)('snippet'),
@@ -185,6 +221,14 @@ var TestController = /** @class */ (function (_super) {
         __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", void 0)
     ], TestController.prototype, "primitiveTypes", null);
+    __decorate([
+        (0, decorators_1.post)('/reassignment'),
+        (0, decorators_1.bodyValidator)('snippet'),
+        (0, decorators_1.use)(logger_1.logger),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", void 0)
+    ], TestController.prototype, "reassignment", null);
     TestController = __decorate([
         (0, decorators_1.controller)('/tests')
     ], TestController);
