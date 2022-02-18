@@ -78,7 +78,9 @@ export class TestController extends Controller {
     }
 
     try {
-      const testFunction = vm.run(`${snippet}
+      const testFunction = vm.run(`
+      "use strict";
+      ${snippet}
       
       module.exports = function() {
           return {
@@ -129,7 +131,9 @@ export class TestController extends Controller {
     }
 
     try {
-      const testFunction = vm.run(`${snippet}
+      const testFunction = vm.run(`
+      "use strict";
+      ${snippet}
 
       module.exports = function() {
           return {
@@ -212,7 +216,7 @@ export class TestController extends Controller {
       } else {
         res.status(200).send({ message: 'Test failed',
         error: { 
-          message: `open is ${testFunction().results.open}, should be true`,
+          message: `open is ${testFunction().results.open}, should be false`,
           name: 'Incorrect',
           stack: '',
           lineNumber: 0

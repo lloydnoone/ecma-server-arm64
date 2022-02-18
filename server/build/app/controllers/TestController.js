@@ -93,7 +93,7 @@ var TestController = /** @class */ (function (_super) {
             res.status(422).send('Invalid snippet received.');
         }
         try {
-            var testFunction = vm.run("".concat(snippet, "\n      \n      module.exports = function() {\n          return {\n            results: {\n              open: open\n            }\n          }\n        }\n      "));
+            var testFunction = vm.run("\n      \"use strict\";\n      ".concat(snippet, "\n      \n      module.exports = function() {\n          return {\n            results: {\n              open: open\n            }\n          }\n        }\n      "));
             if (testFunction().results.open === true) {
                 res.status(200).send({ message: 'Test passed' });
             }
@@ -130,7 +130,7 @@ var TestController = /** @class */ (function (_super) {
             res.status(422).send('Invalid snippet received.');
         }
         try {
-            var testFunction = vm.run("".concat(snippet, "\n\n      module.exports = function() {\n          return {\n            results: {\n              userName: userName,\n              passCode: passCode,\n              open: open\n            }\n          }\n      }"));
+            var testFunction = vm.run("\n      \"use strict\";\n      ".concat(snippet, "\n\n      module.exports = function() {\n          return {\n            results: {\n              userName: userName,\n              passCode: passCode,\n              open: open\n            }\n          }\n      }"));
             //compare results of users code to correct answer
             var result = ObjectCompareResult(testFunction().results, {
                 userName: "Admin",
@@ -175,13 +175,13 @@ var TestController = /** @class */ (function (_super) {
         }
         try {
             var testFunction = vm.run("\n      \n      let open = false\n\n      ".concat(snippet, "\n      \n      module.exports = function() {\n          return {\n            results: {\n              open: open\n            }\n          }\n        }\n      "));
-            if (testFunction().results.open === true) {
+            if (testFunction().results.open === false) {
                 res.status(200).send({ message: 'Test passed' });
             }
             else {
                 res.status(200).send({ message: 'Test failed',
                     error: {
-                        message: "open is ".concat(testFunction().results.open, ", should be true"),
+                        message: "open is ".concat(testFunction().results.open, ", should be false"),
                         name: 'Incorrect',
                         stack: '',
                         lineNumber: 0
